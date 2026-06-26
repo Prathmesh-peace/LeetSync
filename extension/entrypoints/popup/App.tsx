@@ -1,34 +1,81 @@
-import { useState } from 'react';
-import reactLogo from '@/assets/react.svg';
-import wxtLogo from '/wxt.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+
+import "./App.css";
+
+import {
+  loginWithGitHub,
+  getGitHubUser,
+  logoutGitHub,
+} from "../../lib/github/auth";
+
+import type { GitHubUser } from "../../lib/github/types";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [user, setUser] = useState<GitHubUser | null>(null);
+
+  useEffect(() => {
+    getGitHubUser().then(setUser);
+  }, []);
+
+  async function connect() {
+    const githubUser = await loginWithGitHub();
+
+    if (githubUser) {
+      setUser(githubUser);
+    }
+  }
+
+  async function disconnect() {
+    await logoutGitHub();
+    setUser(null);
+  }
+
+  if (!user) {
+    return (
+      <div
+        style={{
+          width: 320,
+          padding: 20,
+          textAlign: "center",
+        }}
+      >
+        <h2>LeetSync</h2>
+
+        <button onClick={connect}>
+          Connect GitHub
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://wxt.dev" target="_blank">
-          <img src={wxtLogo} className="logo" alt="WXT logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>WXT + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the WXT and React logos to learn more
+    <div
+      style={{
+        width: 320,
+        padding: 20,
+      }}
+    >
+      <h2>LeetSync</h2>
+
+      <p>
+        <strong>{user.name}</strong>
       </p>
-    </>
+
+      <p>@{user.login}</p>
+
+      <p
+        style={{
+          color: "green",
+          fontWeight: "bold",
+        }}
+      >
+        ✅ GitHub Connected
+      </p>
+
+      <button onClick={disconnect}>
+        Disconnect
+      </button>
+    </div>
   );
 }
 
