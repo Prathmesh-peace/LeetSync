@@ -1,21 +1,20 @@
 import express from "express";
+import cors from "cors";
 
-console.log("📄 app.ts loaded");
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
-app.get("/", (_req, res) => {
-  res.send("Root route works");
-});
+app.use(cors());
+app.use(express.json());
 
 app.get("/health", (_req, res) => {
-  console.log("✅ /health called");
   res.json({
     status: "ok",
     message: "Backend is working!",
   });
 });
 
-console.log("Routes registered");
+app.use("/auth", authRoutes);
 
 export default app;

@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "@types/chrome": "^0.2.0"
+  },
+  "dependencies": {
+    "axios": "^1.18.1"
   }
 }
