@@ -1,7 +1,9 @@
 import { SubmissionDetector } from "../lib/observer/submission-detector";
+import { SubmissionPipeline } from "../lib/pipeline/submission-pipeline";
 
 export default defineContentScript({
   matches: ["https://leetcode.com/problems/*"],
+
   runAt: "document_idle",
 
   main() {
@@ -9,6 +11,11 @@ export default defineContentScript({
 
     const detector = new SubmissionDetector();
 
-    detector.start();
+    const pipeline =
+      new SubmissionPipeline();
+
+    detector.start((submissionId) => {
+      pipeline.run(submissionId);
+    });
   },
 });

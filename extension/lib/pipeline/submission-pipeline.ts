@@ -1,46 +1,45 @@
-import { checkSubmission } from "../leetcode/check/service";
-import { fetchSubmission } from "../leetcode/submission-service";
 import { fetchProblem } from "../leetcode/problem-service";
-
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+import { fetchSubmission } from "../leetcode/submission-service";
+import type { SyncPayload } from "./sync_payload";
 
 export class SubmissionPipeline {
   async run(submissionId: number) {
     console.log("🚀 Pipeline started");
 
-    while (true) {
-      const check =
-        await checkSubmission(submissionId);
+    console.log("📥 Fetching submission...");
 
-      console.log(check);
+    const submission = await fetchSubmission(submissionId);
 
-      if (!check.finished) {
-        await sleep(1000);
-        continue;
-      }
+    console.log("✅ Submission fetched");
 
-      if (!check.accepted) {
-        console.log("❌ Not Accepted");
-        return;
-      }
-
-      break;
+    // 16 = Accepted
+    if (submission.statusCode !== 16) {
+      console.log("❌ Submission not accepted");
+      return;
     }
 
-    const submission =
-      await fetchSubmission(submissionId);
+    console.log("✅ Accepted!");
 
-    const problem =
-      await fetchProblem(
-        submission.titleSlug,
-        `https://leetcode.com/problems/${submission.titleSlug}/description/`
-      );
+    console.log("📥 Fetching problem...");
 
-    console.log({
+    const problem = await fetchProblem(
+      submission.titleSlug,
+      `https://leetcode.com/problems/${submission.titleSlug}/description/`
+    );
+
+    console.log("✅ Problem fetched");
+
+    const payload: SyncPayload = {
       problem,
       submission,
-    });
+    };
+
+    console.log("📦 Sync Payload");
+    console.log(payload);
+
+    console.log("🎉 Pipeline completed!");
+    return payload
+    // Phase 5
+    // await github.sync(payload);
   }
 }
