@@ -1,5 +1,5 @@
 import type { GraphQLResponse } from "./api-types";
-import type { ProblemData } from "./types";
+import type { ProblemData } from "./problem-types";
 
 export function parseProblem(
   response: GraphQLResponse,

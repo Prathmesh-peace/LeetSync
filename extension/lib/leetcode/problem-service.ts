@@ -1,9 +1,9 @@
 import { graphqlRequest } from "./graphql";
-import { parseProblem } from "./parser";
-import { PROBLEM_QUERY } from "./query";
+import { parseProblem } from "./problem-parser";
+import { PROBLEM_QUERY } from "./problem-query";
 
 import type { GraphQLResponse } from "./api-types";
-import type { ProblemData } from "./types";
+import type { ProblemData } from "./problem-types";
 
 export async function fetchProblem(
   slug: string,

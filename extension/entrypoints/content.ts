@@ -1,22 +1,14 @@
-import { fetchProblem } from "../lib/leetcode/service";
+import { SubmissionDetector } from "../lib/observer/submission-detector";
 
 export default defineContentScript({
   matches: ["https://leetcode.com/problems/*"],
-
   runAt: "document_idle",
 
-  async main() {
-
+  main() {
     console.log("🚀 LeetSync Loaded");
 
-    const slug = window.location.pathname.split("/")[2];
+    const detector = new SubmissionDetector();
 
-    const problem = await fetchProblem(
-      slug,
-      window.location.href
-    );
-
-    console.log(problem);
-
+    detector.start();
   },
 });
