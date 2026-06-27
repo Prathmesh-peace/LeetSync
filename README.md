@@ -132,6 +132,43 @@ GITHUB_CLIENT_SECRET=YOUR_CLIENT_SECRET
 - [ ] Contest history
 
 ---
+## Known Limitations (v1.0.0)
+
+LeetSync v1.0.0 provides a complete end-to-end synchronization pipeline from LeetCode to GitHub.
+
+### Current Limitation
+
+Repository-wide files are generated using the latest synchronized submission only.
+
+This affects:
+
+* `README.md`
+* `stats.json`
+* `topics/`
+* `languages/`
+
+As a result, these files currently reflect the most recent submission instead of the cumulative repository history.
+
+Problem-specific files are not affected:
+
+* ✅ `Solution.java`
+* ✅ `README.md` (inside each problem)
+* ✅ `metadata.json`
+
+### Planned for v1.1.0
+
+The next feature release will introduce incremental repository updates.
+
+Instead of regenerating repository-wide files from the current submission, LeetSync will:
+
+* Read the existing repository state.
+* Merge the new submission.
+* Update statistics incrementally.
+* Preserve existing topics and languages.
+* Regenerate the root README with accurate cumulative information.
+
+This enhancement will make repository-wide metadata fully consistent across all synchronized solutions.
+
 
 ## Author
 
