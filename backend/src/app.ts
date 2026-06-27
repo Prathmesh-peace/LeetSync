@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
-
+import repositoryRoutes from "./routes/repository.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import syncRoutes from "./routes/sync.routes.js";
 
 const app = express();
 
@@ -16,5 +17,6 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/auth", authRoutes);
-
+app.use("/repositories", repositoryRoutes);
+app.use("/sync", syncRoutes);
 export default app;

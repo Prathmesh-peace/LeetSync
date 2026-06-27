@@ -1,5 +1,8 @@
 import { fetchProblem } from "../leetcode/problem-service";
 import { fetchSubmission } from "../leetcode/submission-service";
+
+import { getGitHubUser } from "../github/auth";
+
 import type { SyncPayload } from "./sync_payload";
 
 export class SubmissionPipeline {
@@ -12,7 +15,6 @@ export class SubmissionPipeline {
 
     console.log("✅ Submission fetched");
 
-    // 16 = Accepted
     if (submission.statusCode !== 16) {
       console.log("❌ Submission not accepted");
       return;
@@ -37,9 +39,35 @@ export class SubmissionPipeline {
     console.log("📦 Sync Payload");
     console.log(payload);
 
+    const github = await getGitHubUser();
+
+    if (!github) {
+      console.log("❌ GitHub not connected");
+      return;
+    }
+
+    console.log("☁️ Syncing to backend...");
+
+    const response = await fetch("http://localhost:5000/sync", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${github.token}`,
+      },
+      body: JSON.stringify({
+        owner: github.login,
+        repository: "leetcode",
+        payload,
+      }),
+    });
+
+    const result = await response.json();
+
+    console.log("✅ Backend Response");
+    console.log(result);
+
     console.log("🎉 Pipeline completed!");
-    return payload
-    // Phase 5
-    // await github.sync(payload);
+
+    return payload;
   }
 }
