@@ -18,6 +18,7 @@ Automatically synchronize your accepted **LeetCode** solutions to **GitHub** wit
 * ✅ Detect accepted LeetCode submissions
 * ✅ Fetch submission code
 * ✅ Fetch complete problem details
+* ✅ Wait for final LeetCode verdict before synchronization
 * ✅ Automatic GitHub OAuth authentication
 * ✅ Automatically create GitHub repository
 * ✅ Upload accepted solutions

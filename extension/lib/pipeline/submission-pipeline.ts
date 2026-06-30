@@ -1,5 +1,6 @@
 import { fetchProblem } from "../leetcode/problem-service";
 import { fetchSubmission } from "../leetcode/submission-service";
+import { waitUntilFinished } from "../leetcode/submission-check";
 
 import { getGitHubUser } from "../github/auth";
 
@@ -9,18 +10,30 @@ export class SubmissionPipeline {
   async run(submissionId: number) {
     console.log("🚀 Pipeline started");
 
+    console.log("⏳ Waiting for final verdict...");
+
+    const verdict = await waitUntilFinished(submissionId);
+
+    if (!verdict.finished) {
+      console.log("❌ Submission not finished");
+      return;
+    }
+
+    if (
+      verdict.status_code !== 10 &&
+      verdict.status_code !== 16
+    ) {
+      console.log(`❌ ${verdict.status_msg}`);
+      return;
+    }
+
+    console.log("✅ Accepted!");
+
     console.log("📥 Fetching submission...");
 
     const submission = await fetchSubmission(submissionId);
 
     console.log("✅ Submission fetched");
-
-    if (submission.statusCode !== 16) {
-      console.log("❌ Submission not accepted");
-      return;
-    }
-
-    console.log("✅ Accepted!");
 
     console.log("📥 Fetching problem...");
 
