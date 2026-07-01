@@ -52,7 +52,7 @@ export async function syncRepository(
     virtualRepository
   );
 
-  // If this is a new problem, update repository-wide files
+  // Update repository-wide files ONLY for new problems
   if (!duplicate) {
     await updateStats(
       request,
@@ -60,11 +60,6 @@ export async function syncRepository(
     );
 
     await updateTopics(
-      request,
-      payload
-    );
-
-    await updateLanguages(
       request,
       payload
     );
@@ -86,4 +81,10 @@ export async function syncRepository(
       `♻️ Updated solution for "${payload.problem.title}"`
     );
   }
+
+  // ✅ Always update language index
+  await updateLanguages(
+    request,
+    payload
+  );
 }
