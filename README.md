@@ -1,44 +1,53 @@
 # 🚀 LeetSync
 
-Automatically synchronize your accepted **LeetCode** solutions to **GitHub** with a single click.
+Automatically synchronize, organize, and version your accepted **LeetCode** solutions on **GitHub**.
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
 ![React](https://img.shields.io/badge/React-19-blue)
 ![WXT](https://img.shields.io/badge/WXT-Extension-orange)
 ![Express](https://img.shields.io/badge/Express-5.x-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![Version](https://img.shields.io/badge/Version-v1.1.0-success)
+![Version](https://img.shields.io/badge/Version-v2.0.0-success)
 
 ---
 
 ## ✨ Features
 
-### Automatic Synchronization
+### 🔄 Automatic Synchronization
 
-* ✅ Detect accepted LeetCode submissions
-* ✅ Fetch submission code
-* ✅ Fetch complete problem details
-* ✅ Wait for final LeetCode verdict before synchronization
-* ✅ Automatic GitHub OAuth authentication
-* ✅ Automatically create GitHub repository
-* ✅ Upload accepted solutions
+- ✅ Detect accepted LeetCode submissions
+- ✅ Wait for final LeetCode verdict before synchronization
+- ✅ Fetch complete problem details
+- ✅ Fetch accepted solution code
+- ✅ Automatic GitHub OAuth authentication
+- ✅ Automatically create GitHub repository
+- ✅ One-click synchronization
 
-### Repository Generation
+### 📁 Smart Repository Generation
 
-* ✅ Generate problem README
-* ✅ Generate metadata.json
-* ✅ Generate repository README
-* ✅ Generate repository statistics
-* ✅ Organize by Topics
-* ✅ Organize by Languages
-* ✅ Organize by Difficulty
+- ✅ Generate problem README
+- ✅ Generate solution metadata
+- ✅ Generate repository README
+- ✅ Generate repository statistics
+- ✅ Organize by Topics
+- ✅ Organize by Languages
+- ✅ Organize by Difficulty
 
-### Smart Features
+### 🕒 Solution Versioning (New)
 
-* ✅ Persistent repository updates
-* ✅ Duplicate submission detection
-* ✅ Incremental synchronization
-* ✅ Clean repository structure
+- ✅ Language-based solution directories
+- ✅ Independent metadata for every language
+- ✅ Automatic archive before overwrite
+- ✅ Preserve every accepted solution
+- ✅ Complete solution history
+
+### ⚡ Smart Features
+
+- ✅ Unique problem detection
+- ✅ Language-specific duplicate detection
+- ✅ Incremental synchronization
+- ✅ Persistent repository updates
+- ✅ Clean repository structure
 
 ---
 
@@ -53,15 +62,53 @@ leetcode/
 ├── problems/
 │   └── 0001-two-sum/
 │       ├── README.md
-│       ├── Solution.java
-│       └── metadata.json
+│       │
+│       ├── java/
+│       │   ├── Solution.java
+│       │   ├── metadata.json
+│       │   └── history/
+│       │       └── 2026-07-10_18-42-31_2050639394/
+│       │           ├── Solution.java
+│       │           └── metadata.json
+│       │
+│       └── python3/
+│           ├── Solution.py
+│           └── metadata.json
 │
 ├── topics/
-│
 ├── languages/
-│
 └── difficulty/
 ```
+
+---
+
+## 🕒 Solution Versioning
+
+LeetSync automatically preserves your previous accepted solution before replacing it.
+
+Each archived solution stores:
+
+- Source Code
+- Runtime
+- Memory Usage
+- Submission Timestamp
+- Submission ID
+
+This allows you to track your coding journey without losing previous accepted solutions.
+
+---
+
+## 🌍 Multi-Language Support
+
+Solve the same problem in multiple programming languages.
+
+Each language maintains:
+
+- Latest Solution
+- Metadata
+- Independent Version History
+
+Repository statistics continue to count **unique solved problems**, regardless of how many languages you use.
 
 ---
 
@@ -69,16 +116,16 @@ leetcode/
 
 ### Extension
 
-* WXT
-* React
-* TypeScript
-* Chrome Extension API
+- WXT
+- React
+- TypeScript
+- Chrome Extension API
 
 ### Backend
 
-* Express
-* TypeScript
-* GitHub REST API
+- Express
+- TypeScript
+- GitHub REST API
 
 ---
 
@@ -116,45 +163,42 @@ GITHUB_CLIENT_SECRET=YOUR_CLIENT_SECRET
 
 ---
 
-## 📸 Screenshots
-
-### Extension
-
-> Add popup screenshot
-
-### Generated Repository
-
-> Add GitHub repository screenshot
-
----
-
 ## 🗺️ Roadmap
 
 ### ✅ v1.0.0
 
-* Automatic synchronization
-* GitHub OAuth
-* Automatic repository creation
-* Problem README generation
-* Metadata generation
+- Automatic synchronization
+- GitHub OAuth
+- Automatic repository creation
+- Problem README generation
+- Metadata generation
 
 ### ✅ v1.1.0
 
-* Repository statistics
-* Repository README
-* Topics generator
-* Languages generator
-* Difficulty generator
-* Duplicate detection
-* Incremental repository updates
+- Repository statistics
+- Repository README
+- Topics generator
+- Languages generator
+- Difficulty generator
+- Duplicate detection
+- Incremental repository updates
 
-### 🚀 v2.0.0
+### ✅ v2.0.0
 
-* AI-generated explanations
-* Personal notes
-* Company tags
-* Progress dashboard
-* Support for additional coding platforms
+- Language-based solution organization
+- Automatic solution versioning
+- Multi-language support
+- Solution history
+- Independent language metadata
+- Smarter duplicate detection
+
+### 🚀 Future
+
+- AI-generated explanations
+- Personal notes
+- Company tags
+- Progress dashboard
+- Support for additional coding platforms
 
 ---
 
