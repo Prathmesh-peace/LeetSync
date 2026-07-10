@@ -8,7 +8,10 @@ import { updateTopics } from "../github/topics.service.js";
 import { updateLanguages } from "../github/languages.service.js";
 import { updateDifficulty } from "../github/difficulty.service.js";
 import { updateReadme } from "../github/readme.service.js";
-import { isDuplicate } from "../github/duplicate.service.js";
+
+import { isProblemDuplicate } from "../github/problem-duplicate.service.js";
+import { isLanguageDuplicate } from "../github/language-duplicate.service.js";
+import { archiveSolution } from "../github/history.service.js";
 
 import type { SyncPayload } from "./models/sync-payload.js";
 import type { SyncFileRequest } from "../github/file.types.js";
@@ -35,16 +38,33 @@ export async function syncRepository(
     content: "",
   };
 
-  // Check if problem already exists
-  const duplicate = await isDuplicate(
-    request,
-    payload
-  );
+  // Check whether problem already exists
+  const problemDuplicate =
+    await isProblemDuplicate(
+      request,
+      payload
+    );
 
-  // Always build the latest problem files
-  const virtualRepository = buildRepository(payload);
+  // Check whether this language already exists
+  const languageDuplicate =
+    await isLanguageDuplicate(
+      request,
+      payload
+    );
 
-  // Always upload the latest solution, README and metadata
+  // Archive previous solution of the same language
+  if (languageDuplicate) {
+    await archiveSolution(
+      request,
+      payload
+    );
+  }
+
+  // Build latest repository files
+  const virtualRepository =
+    buildRepository(payload);
+
+  // Upload latest solution, metadata and README
   await uploadRepository(
     owner,
     repository,
@@ -52,8 +72,8 @@ export async function syncRepository(
     virtualRepository
   );
 
-  // Update repository-wide files ONLY for new problems
-  if (!duplicate) {
+  // Update repository-wide files ONLY once per problem
+  if (!problemDuplicate) {
     await updateStats(
       request,
       payload
@@ -76,15 +96,22 @@ export async function syncRepository(
     console.log(
       `✅ Successfully synchronized "${payload.problem.title}"`
     );
-  } else {
-    console.log(
-      `♻️ Updated solution for "${payload.problem.title}"`
-    );
   }
 
-  // ✅ Always update language index
+  // Always update language index
   await updateLanguages(
     request,
     payload
   );
+
+  // Log result
+  if (languageDuplicate) {
+    console.log(
+      `♻️ Archived previous ${payload.submission.language} solution`
+    );
+  } else {
+    console.log(
+      `➕ Added ${payload.submission.language} solution`
+    );
+  }
 }

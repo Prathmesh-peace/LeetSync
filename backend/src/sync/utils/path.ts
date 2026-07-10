@@ -23,3 +23,15 @@ export function problemDirectory(
 ): string {
   return `problems/${formatProblemId(payload.problem.id)}-${payload.problem.slug}`;
 }
+
+/**
+ * Returns the directory path for a language inside a problem.
+ *
+ * Example:
+ * problems/0001-two-sum/java
+ */
+export function languageDirectory(
+  payload: SyncPayload
+): string {
+  return `${problemDirectory(payload)}/${payload.submission.language}`;
+}

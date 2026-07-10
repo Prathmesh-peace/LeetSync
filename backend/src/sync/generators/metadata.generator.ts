@@ -1,7 +1,7 @@
 import type { SyncPayload } from "../models/sync-payload.js";
 import type { RepositoryFile } from "../models/file.js";
 
-import { problemDirectory } from "../utils/path.js";
+import { languageDirectory } from "../utils/path.js";
 
 export function generateMetadata(
   payload: SyncPayload
@@ -9,7 +9,7 @@ export function generateMetadata(
 
   return {
 
-    path: `${problemDirectory(payload)}/metadata.json`,
+    path: `${languageDirectory(payload)}/metadata.json`,
 
     content: JSON.stringify(
       {
@@ -18,6 +18,8 @@ export function generateMetadata(
         slug: payload.problem.slug,
         difficulty: payload.problem.difficulty,
         topics: payload.problem.topics,
+
+        submissionId: payload.submission.submissionId,
 
         language: payload.submission.language,
 
